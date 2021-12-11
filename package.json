@@ -1,0 +1,41 @@
+{
+  "name": "tad-change-detector",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/KostyalBalint/tad-change-detector.git",
+  "author": "Kostyal Balint <kostyal.balintnak@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon",
+    "inspect": "tsc && node --inspect dist/index.ts"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts,json",
+    "ignore": [
+      "src/**/*.spec.ts"
+    ],
+    "exec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.3"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.10",
+    "node-fetch": "^3.1.0",
+    "ts-node": "^10.4.0"
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 120,
+    "tabWidth": 4
+  }
+}
