@@ -1,7 +1,11 @@
 import fetch from 'node-fetch';
 import cheerio from 'cheerio';
 
-export async function scrapeUrls(baseURL: string) {
+/**
+ * Scrape all the TAD's (Subject Data Sheets) URLs from a given URL.
+ * @param baseURL The URL to scrape from
+ */
+export async function scrapeUrls(baseURL: string): Promise<string[]> {
     const websiteText = await (await fetch(baseURL)).text();
     const website = cheerio.load(websiteText);
     let urls = website('#main > table > tbody > tr').map((index, element) => {
