@@ -1,5 +1,6 @@
 import cheerio from 'cheerio';
 import fetch from 'node-fetch';
+import iconv from 'iconv-lite';
 
 const MAX_PARALLEL_REQUESTS = 50;
 let parallelRequests = 0;
@@ -9,20 +10,24 @@ let parallelRequests = 0;
  * @param url The url to scrape from
  */
 async function scrapeSubject(url: string): Promise<Subject> {
-    const htmlContent = await fetch(url).then((res) => res.text());
+    const htmlBuffer = await fetch(url).then((res) => res.buffer());
+    //Convert to UTF-8
+    const htmlContent = iconv.decode(htmlBuffer, 'ISO-8859-2');
+
     const $ = cheerio.load(htmlContent);
     //Remove all the comments from the html
     $.root()
         .find('*')
         .contents()
         .filter(function () {
-            return this.type === 'comment';
+            return this.type === 'comment' || this.type === 'style' || this.type === 'script';
         })
         .remove();
     const code = $('#main > table:nth-child(8) > tbody > tr:nth-child(2) > td:nth-child(1)').text();
     const name = $('#main > p.title').text();
-    const htmlDataFields = $('.subject_datafields').html() ?? '';
+    const htmlDataFields = ($('.subject_datafields').text() ?? '').replace(/\\n/g, '\n').replace(/^\s*[\r\n]/gm, '\n'); //Remove multiple newlines
     return {
+        url,
         name,
         code,
         htmlDataFields,
@@ -53,5 +58,7 @@ export async function scrapeSubjects(siteUrl: string, urls: string[]): Promise<S
 export type Subject = {
     name: string;
     code: string;
+    //The url of the subject in https://portal.vik.bme.hu/ website
+    url: string;
     htmlDataFields: string;
 };
