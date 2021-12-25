@@ -6,6 +6,7 @@
   "author": "Kostyal Balint <kostyal.balintnak@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "cd backend && nodemon"
+    "dev:backend": "cd backend && nodemon",
+    "dev:frontend": "cd frontend && npm run start"
   }
 }
