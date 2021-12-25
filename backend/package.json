@@ -23,6 +23,7 @@
     "exec": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts"
   },
   "devDependencies": {
+    "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "typescript": "^4.5.3"
   },

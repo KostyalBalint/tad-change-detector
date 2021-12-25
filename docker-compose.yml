@@ -1,0 +1,37 @@
+version: "3"
+services:
+  traefik:
+    image: "traefik:v2.4"
+    command:
+      - "--log.level=INFO"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--providers.docker.defaultRule=HostRegexp(`{_:{{ index .Labels \"com.docker.compose.service\" }}\\..*}`)"
+    ports:
+      - "${PUBLIC_PORT-80}:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.traefik.rule: HostRegexp(`{_:traefik\..*}`)
+      traefik.http.services.traefik.loadbalancer.server.port: 8080
+  frontend:
+    build:
+      context: ./frontend
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.frontend.rule: HostRegexp(`{_:web\..*}`)
+      traefik.http.services.frontend.loadbalancer.server.port: 3000
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    labels:
+      traefik.enable: "true"
+      traefik.http.services.backend.loadbalancer.server.port: 8080
+      traefik.http.routers.backend.rule: HostRegexp(`{_:api\..*}`)
+    #volumes:
+    #  - ./src:/usr/app/src
+    #  - ./prisma:/usr/app/prisma
