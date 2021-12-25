@@ -24,14 +24,16 @@ services:
       traefik.enable: "true"
       traefik.http.routers.frontend.rule: HostRegexp(`{_:web\..*}`)
       traefik.http.services.frontend.loadbalancer.server.port: 3000
+    volumes:
+      - ./frontend/src:/usr/app/src
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      #dockerfile: backend/Dockerfile.dev
     labels:
       traefik.enable: "true"
       traefik.http.services.backend.loadbalancer.server.port: 8080
       traefik.http.routers.backend.rule: HostRegexp(`{_:api\..*}`)
-    #volumes:
-    #  - ./src:/usr/app/src
+    volumes:
+      - ./backend/src:/usr/app/src
     #  - ./prisma:/usr/app/prisma
