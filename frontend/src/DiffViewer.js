@@ -1,26 +1,6 @@
 import React, { PureComponent } from 'react';
 import ReactDiffViewer from 'react-diff-viewer';
 
-const oldCode = `
-const a = 10
-const b = 10
-const c = () => console.log('foo')
-
-if(a > 10) {
-  console.log('bar')
-}
-
-console.log('done')
-`;
-const newCode = `
-const a = 10
-const boo = 10
-
-if(a === 10) {
-  console.log('bar')
-}
-`;
-
 export class DiffViewer extends PureComponent {
     constructor(props) {
         super(props);
@@ -34,7 +14,7 @@ export class DiffViewer extends PureComponent {
 
     componentDidMount() {
         fetch(
-            "http://localhost:8080/subjects/VIAUA007")
+            "http://api.localhost/subjects/VIAUA007")
             .then((res) => res.json())
             .then((json) => {
                 this.setState({

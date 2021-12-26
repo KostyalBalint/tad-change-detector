@@ -4,12 +4,24 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
+var rootEl =  document.getElementById('root')
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  document.getElementById('root')
+    rootEl,
 );
+
+// Are we in development mode?
+if (module.hot) {
+    // Whenever a new version of App.js is available
+    module.hot.accept('./App', function () {
+        // Require the new version and render it instead
+        var NextApp = require('./App')
+        ReactDOM.render(<NextApp />, rootEl)
+    })
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
