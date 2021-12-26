@@ -6,7 +6,7 @@ WORKDIR /usr/app
 
 # install app dependencies
 COPY package.json yarn.lock ./
-RUN yarn
+RUN yarn --pure-lockfile
 
 # add app
 COPY . ./
