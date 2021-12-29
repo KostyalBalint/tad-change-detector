@@ -1,6 +1,7 @@
 import "./App.css";
 import React from "react";
 import { Link } from "react-router-dom";
+import DataTable, { TableColumn, TableRow } from "react-data-table-component";
 
 class App extends React.Component<any, State> {
   constructor(props: any) {
@@ -25,15 +26,32 @@ class App extends React.Component<any, State> {
   }
 
   render() {
+    const columns: TableColumn<DataRow>[] = [
+      {
+        name: "Name",
+        //TODO: Fix links in the datatable
+        // @ts-ignore
+        selector: (row) => row.name,
+        sortable: true,
+      },
+      {
+        name: "Code",
+        selector: (row) => row.code,
+        sortable: true,
+      },
+    ];
     if (this.state.dataLoaded) {
+      let data = this.state.subjects.map((subject) => {
+        return {
+          id: subject.code,
+          name: <Link to={"diff/" + subject.code}>{subject.name}</Link>,
+          code: subject.code,
+        };
+      });
       return (
         <>
           <h1>Subjects</h1>
-          <ul>
-            {this.state.subjects.map((subject) => (
-              <Link to={subject.code} />
-            ))}
-          </ul>
+          <DataTable columns={columns} data={data} />
         </>
       );
     } else {
@@ -57,6 +75,11 @@ export type Subject = {
   //The url of the subject in https://portal.vik.bme.hu/ website
   url: string;
   htmlDataFields: string;
+};
+
+type DataRow = {
+  name: JSX.Element;
+  code: string;
 };
 
 export default App;

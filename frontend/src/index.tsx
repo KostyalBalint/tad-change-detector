@@ -11,7 +11,7 @@ ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="diff" element={<DiffViewer />} />
+      <Route path="diff/:code" element={<DiffViewer />} />
     </Routes>
   </BrowserRouter>,
   rootEl

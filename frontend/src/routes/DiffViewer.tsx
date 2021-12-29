@@ -1,50 +1,42 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import ReactDiffViewer from "react-diff-viewer";
+import { useParams } from "react-router";
 
-export class DiffViewer extends Component<any, State> {
-  constructor(props: any) {
-    super(props);
+export function DiffViewer() {
+  const [subject, setSubject] = useState<Subject>({
+    htmlDataFields: "",
+  });
+  const [newSubject, setNewSubject] = useState<Subject>({
+    htmlDataFields: "",
+  });
+  const [isLoaded, setIsLoaded] = useState(false);
 
-    this.state = {
-      subject: undefined,
-      newSubject: undefined,
-      isLoaded: false,
-    };
-  }
+  const { code } = useParams();
 
-  componentDidMount() {
-    fetch("http://api.localhost/subjects/VIAUA007")
+  useEffect(() => {
+    fetch(`http://api.localhost/subjects/${code}`)
       .then((res) => res.json())
       .then((json) => {
-        this.setState({
-          subject: json.subject,
-          newSubject: json.newSubject,
-          isLoaded: true,
-        });
-        console.log(this.state);
+        setSubject(json.subject);
+        setNewSubject(json.newSubject);
+        setIsLoaded(true);
       });
+  });
+
+  if (isLoaded) {
+    return (
+      <ReactDiffViewer
+        oldValue={subject.htmlDataFields}
+        newValue={newSubject.htmlDataFields}
+        splitView={true}
+      />
+    );
+  } else {
+    return <div>Loading...</div>;
   }
-  render = () => {
-    if (this.state.isLoaded && this.state.subject && this.state.newSubject) {
-      return (
-        <ReactDiffViewer
-          oldValue={this.state.subject.htmlDataFields}
-          newValue={this.state.newSubject.htmlDataFields}
-          splitView={true}
-        />
-      );
-    } else {
-      return <div>Loading...</div>;
-    }
-  };
 }
 
-type State = {
-  subject: Subject | undefined;
-  newSubject: Subject | undefined;
-  isLoaded: boolean;
-};
-
+//TODO: Move Subject type to a cental location
 type Subject = {
   htmlDataFields: string;
 };
