@@ -5,11 +5,17 @@ import iconv from 'iconv-lite';
 const MAX_PARALLEL_REQUESTS = 50;
 let parallelRequests = 0;
 
+export async function getSubjectTextContent(rawHtml: string): Promise<string> {
+    const $ = cheerio.load(rawHtml);
+    //Remove multiple newlines
+    return ($('.subject_datafields').text() ?? '').replace(/\\n/g, '\n').replace(/^\s*[\r\n]/gm, '\n');
+}
+
 /**
  * Scrape a given subject from the website
  * @param url The url to scrape from
  */
-async function scrapeSubject(url: string): Promise<Subject> {
+export async function scrapeSubject(url: string): Promise<Subject> {
     const htmlBuffer = await fetch(url).then((res) => res.buffer());
     //Convert to UTF-8
     const htmlContent = iconv.decode(htmlBuffer, 'ISO-8859-2');
@@ -25,12 +31,12 @@ async function scrapeSubject(url: string): Promise<Subject> {
         .remove();
     const code = $('#main > table:nth-child(8) > tbody > tr:nth-child(2) > td:nth-child(1)').text();
     const name = $('#main > p.title').text();
-    const htmlDataFields = ($('.subject_datafields').text() ?? '').replace(/\\n/g, '\n').replace(/^\s*[\r\n]/gm, '\n'); //Remove multiple newlines
     return {
         url,
         name,
         code,
-        htmlDataFields,
+        rawHtml: htmlContent,
+        createdAt: new Date(),
     };
 }
 
@@ -38,17 +44,17 @@ async function scrapeSubject(url: string): Promise<Subject> {
  * Scrape all the subjects from the website
  * Only makes requests in parallel if there are less than MAX_PARALLEL_REQUESTS
  * @param siteUrl The base url of the website
- * @param urls The url list
+ * @param codes The subject codes to scrape
  */
-export async function scrapeSubjects(siteUrl: string, urls: string[]): Promise<Subject[]> {
+export async function scrapeSubjects(siteUrl: string, codes: string[]): Promise<Subject[]> {
     return await Promise.all(
-        urls.map(async (url) => {
+        codes.map(async (code) => {
             while (parallelRequests >= MAX_PARALLEL_REQUESTS) {
                 //Wait until a request is finished
                 await new Promise((resolve) => setTimeout(resolve, Math.random() * 1000));
             }
             parallelRequests++;
-            const subject = await scrapeSubject(siteUrl + url);
+            const subject = await scrapeSubject(siteUrl + code);
             parallelRequests--;
             return subject;
         }),
@@ -60,5 +66,6 @@ export type Subject = {
     code: string;
     //The url of the subject in https://portal.vik.bme.hu/ website
     url: string;
-    htmlDataFields: string;
+    rawHtml: string;
+    createdAt: Date;
 };
