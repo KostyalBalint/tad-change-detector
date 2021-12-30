@@ -1,5 +1,5 @@
 import { scrapeUrls, SubjectURL } from './scrape-urls';
-import { scrapeSubjects, Subject } from './scrape-subject';
+import { getSubjectWithTextContent, scrapeSubjects, Subject, SubjectWithTextContent } from './scrape-subject';
 import express from 'express';
 import { getSubjectFileNames, getSubjectState, getSubjectStateFromFile, saveSubjectState } from './subjectState';
 import { handleChanged } from './handleChanged';
@@ -84,8 +84,8 @@ app.get('/subjects/:id', async (req, res) => {
         if (oldSubject && newSubject) {
             res.json({
                 data: {
-                    old: oldSubject,
-                    new: newSubject,
+                    old: getSubjectWithTextContent(oldSubject),
+                    new: getSubjectWithTextContent(newSubject),
                 },
             } as SubjectResponse);
         } else {
@@ -102,8 +102,8 @@ app.get('/subjects/:id', async (req, res) => {
 
 export interface SubjectResponse {
     data: {
-        old?: Subject;
-        new?: Subject;
+        old?: SubjectWithTextContent;
+        new?: SubjectWithTextContent;
     };
     error?: string;
 }

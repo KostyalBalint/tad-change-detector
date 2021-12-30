@@ -5,10 +5,13 @@ import iconv from 'iconv-lite';
 const MAX_PARALLEL_REQUESTS = 20;
 let parallelRequests = 0;
 
-export async function getSubjectTextContent(rawHtml: string): Promise<string> {
-    const $ = cheerio.load(rawHtml);
+export function getSubjectWithTextContent(subject: Subject): SubjectWithTextContent {
+    const $ = cheerio.load(subject.rawHtml);
+    //Copy the subject object
+    let withText = Object.assign({}, subject) as SubjectWithTextContent;
     //Remove multiple newlines
-    return ($('.subject_datafields').text() ?? '').replace(/\\n/g, '\n').replace(/^\s*[\r\n]/gm, '\n');
+    withText.textContent = ($('.subject_datafields').text() ?? '').replace(/\\n/g, '\n').replace(/^\s*[\r\n]/gm, '\n');
+    return withText;
 }
 
 /**
@@ -69,4 +72,8 @@ export type Subject = {
     url: string;
     rawHtml: string;
     createdAt: Date;
+};
+
+export type SubjectWithTextContent = Subject & {
+    textContent: string;
 };

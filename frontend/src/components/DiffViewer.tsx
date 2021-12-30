@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDiffViewer from "react-diff-viewer";
 import { SubjectResponse } from "@backend/index";
-import { Subject } from "@backend/scrape-subject";
+import { SubjectWithTextContent } from "@backend/scrape-subject";
 
 export function DiffViewer({
   code,
@@ -12,18 +12,20 @@ export function DiffViewer({
   oldFile: string;
   newFile: string;
 }) {
-  const [subject, setSubject] = useState<Subject>({
+  const [subject, setSubject] = useState<SubjectWithTextContent>({
     code: "",
     createdAt: new Date(),
     name: "",
     rawHtml: "",
+    textContent: "",
     url: "",
   });
-  const [newSubject, setNewSubject] = useState<Subject>({
+  const [newSubject, setNewSubject] = useState<SubjectWithTextContent>({
     code: "",
     createdAt: new Date(),
     name: "",
     rawHtml: "",
+    textContent: "",
     url: "",
   });
   const [isLoaded, setIsLoaded] = useState(false);
@@ -56,8 +58,8 @@ export function DiffViewer({
   if (isLoaded) {
     return (
       <ReactDiffViewer
-        oldValue={subject.rawHtml}
-        newValue={newSubject.rawHtml}
+        oldValue={subject.textContent}
+        newValue={newSubject.textContent}
         splitView={true}
       />
     );
