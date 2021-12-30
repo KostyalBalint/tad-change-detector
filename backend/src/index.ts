@@ -1,4 +1,4 @@
-import { scrapeUrls, SubjectURL } from './scrape-urls';
+import { getURLs, refreshURLsCache, SubjectURL } from './scrape-urls';
 import { getSubjectWithTextContent, scrapeSubjects, Subject, SubjectWithTextContent } from './scrape-subject';
 import express from 'express';
 import { getSubjectFileNames, getSubjectState, getSubjectStateFromFile, saveSubjectState } from './subjectState';
@@ -11,11 +11,13 @@ const COURSES_URL = `${SITE_URL}/kepzes/targyak/`;
 main();
 
 async function run() {
+    await refreshURLsCache(COURSES_URL);
+
     console.log('Scraping subjects...');
     console.time('scrape-subjects');
 
     //Scrape all the subjects
-    const digests = await scrapeUrls(COURSES_URL);
+    const digests = await getURLs(COURSES_URL);
     const subjects = await scrapeSubjects(COURSES_URL, digests.map((c) => c.code).slice(0, 10));
 
     //Check if any of them changed
@@ -59,7 +61,7 @@ app.get('/', (req, res) => {
 
 app.get('/subjects', async (req, res) => {
     res.json({
-        data: await scrapeUrls(COURSES_URL),
+        data: await getURLs(COURSES_URL),
     } as SubjectsResponse);
 });
 

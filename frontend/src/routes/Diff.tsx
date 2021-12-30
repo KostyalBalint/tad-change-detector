@@ -48,7 +48,7 @@ export function Diff() {
         >
           <Dropdown>
             <Dropdown.Toggle
-              className={"btn-sm"}
+              className={"btn-sm m-3"}
               variant="success"
               id="dropdown-basic"
             >
@@ -67,7 +67,7 @@ export function Diff() {
           </Dropdown>
           <Dropdown>
             <Dropdown.Toggle
-              className={"btn-sm"}
+              className={"btn-sm m-3"}
               variant="success"
               id="dropdown-basic"
             >

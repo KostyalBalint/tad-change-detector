@@ -57,14 +57,14 @@ const App = () => {
         id: url.code,
         name: url.name,
         code: url.code,
-        credits: url.credits + " kredit",
+        credits: url.credits,
         department: url.department,
-        stateCount: url.stateCount.toString(),
+        stateCount: url.stateCount,
       };
     });
     return (
       <>
-        <h1>Subjects</h1>
+        <h3 className={"mt-2 mb-2 text-center"}>Subjects</h3>
         <DataTable
           columns={columns}
           data={data}
@@ -73,7 +73,7 @@ const App = () => {
           }}
           conditionalRowStyles={[
             {
-              when: (row) => Number.parseInt(row.stateCount) > 1,
+              when: (row) => row.stateCount > 1,
               style: {
                 backgroundColor: "rgba(63, 195, 128, 0.9)",
               },
@@ -92,7 +92,7 @@ const App = () => {
   } else {
     return (
       <>
-        <h1>Loading...</h1>
+        <h3 className={"mt-2 mb-2 text-center"}>Loading...</h3>
       </>
     );
   }
@@ -101,9 +101,9 @@ const App = () => {
 type DataRow = {
   name: string;
   code: string;
-  credits: string;
+  credits: number;
   department: string;
-  stateCount: string;
+  stateCount: number;
 };
 
 export default App;
