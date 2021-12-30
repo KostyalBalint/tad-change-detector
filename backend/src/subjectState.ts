@@ -8,8 +8,8 @@ const BASE_DIR = path.resolve('./data/');
  * Get a Subjects last saved state from file
  * @param code Code of the subject
  */
-export async function getSubjectState(code: string): Promise<Subject | undefined> {
-    const fileNames = await getSubjectFileNames(code);
+export function getSubjectState(code: string): Subject | undefined {
+    const fileNames = getSubjectFileNames(code);
     if (fileNames) {
         let fileName = fileNames.sort().reverse()[0];
         return getSubjectStateFromFile(code, fileName);
@@ -21,12 +21,12 @@ export async function getSubjectState(code: string): Promise<Subject | undefined
  * Get all saved state files for a subject
  * @param code Code of the subject
  */
-export async function getSubjectFileNames(code: string): Promise<string[] | undefined> {
+export function getSubjectFileNames(code: string): string[] {
     const subjectDir = path.join(BASE_DIR, `${code}`);
     if (fs.existsSync(subjectDir)) {
         return fs.readdirSync(subjectDir);
     } else {
-        return undefined;
+        return [];
     }
 }
 
@@ -35,7 +35,7 @@ export async function getSubjectFileNames(code: string): Promise<string[] | unde
  * @param code Code of the subject
  * @param fileName Name of the file
  */
-export async function getSubjectStateFromFile(code: string, fileName: string): Promise<Subject | undefined> {
+export function getSubjectStateFromFile(code: string, fileName: string): Subject | undefined {
     const filePath = path.join(BASE_DIR, code, fileName);
     if (fs.existsSync(filePath)) {
         try {
