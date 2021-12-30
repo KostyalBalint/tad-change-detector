@@ -26,6 +26,7 @@ services:
       traefik.http.services.frontend.loadbalancer.server.port: 3000
     volumes:
       - ./frontend/src:/usr/app/src
+      - ./backend:/usr/backend  #Add volume for backend types
     hostname: frontend
     #network_mode: bridge
   backend:
