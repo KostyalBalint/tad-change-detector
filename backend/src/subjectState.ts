@@ -9,14 +9,40 @@ const BASE_DIR = path.resolve('./data/');
  * @param code Code of the subject
  */
 export async function getSubjectState(code: string): Promise<Subject | undefined> {
+    const fileNames = await getSubjectFileNames(code);
+    if (fileNames) {
+        let fileName = fileNames.sort().reverse()[0];
+        return getSubjectStateFromFile(code, fileName);
+    }
+    return undefined;
+}
+
+/**
+ * Get all saved state files for a subject
+ * @param code Code of the subject
+ */
+export async function getSubjectFileNames(code: string): Promise<string[] | undefined> {
     const subjectDir = path.join(BASE_DIR, `${code}`);
     if (fs.existsSync(subjectDir)) {
-        let fileName = fs.readdirSync(subjectDir).sort().reverse()[0];
-        if (fileName) {
-            const filePath = path.join(subjectDir, fileName);
+        return fs.readdirSync(subjectDir);
+    } else {
+        return undefined;
+    }
+}
+
+/**
+ * Get a Subjects state by fileName
+ * @param code Code of the subject
+ * @param fileName Name of the file
+ */
+export async function getSubjectStateFromFile(code: string, fileName: string): Promise<Subject | undefined> {
+    const filePath = path.join(BASE_DIR, code, fileName);
+    if (fs.existsSync(filePath)) {
+        try {
             const data = fs.readFileSync(filePath, 'utf8');
-            return JSON.parse(data);
-        } else {
+            return JSON.parse(data) as Subject;
+        } catch (e) {
+            console.error('Error reading file', filePath, e);
             return undefined;
         }
     } else {

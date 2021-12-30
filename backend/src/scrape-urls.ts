@@ -24,7 +24,7 @@ export async function scrapeUrls(baseURL: string): Promise<SubjectURL[]> {
     return urls.get().filter((url) => url);
 }
 
-type SubjectURL = {
+export type SubjectURL = {
     code: string;
     name: string;
     department: string;

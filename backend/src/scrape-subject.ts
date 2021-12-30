@@ -2,7 +2,7 @@ import cheerio from 'cheerio';
 import fetch from 'node-fetch';
 import iconv from 'iconv-lite';
 
-const MAX_PARALLEL_REQUESTS = 50;
+const MAX_PARALLEL_REQUESTS = 20;
 let parallelRequests = 0;
 
 export async function getSubjectTextContent(rawHtml: string): Promise<string> {
@@ -29,7 +29,8 @@ export async function scrapeSubject(url: string): Promise<Subject> {
             return this.type === 'comment' || this.type === 'style' || this.type === 'script';
         })
         .remove();
-    const code = $('#main > table:nth-child(8) > tbody > tr:nth-child(2) > td:nth-child(1)').text();
+    let code = $('#main > table:nth-child(8) > tbody > tr:nth-child(2) > td:nth-child(1)').text();
+    if (!code) code = url.split('/').reverse()[0]; //Fallback to the last part of the url
     const name = $('#main > p.title').text();
     return {
         url,
