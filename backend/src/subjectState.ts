@@ -60,7 +60,7 @@ export async function getSubjectStateFromFile(code: string, fileName: string): P
 export async function saveSubjectState(subject: Subject): Promise<void> {
     const subjectDir = path.join(BASE_DIR, `${subject.code}`);
     if (!fs.existsSync(subjectDir)) {
-        fs.mkdirSync(subjectDir);
+        fs.mkdirSync(subjectDir, { recursive: true });
     }
     const date = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
     const filePath = path.join(subjectDir, `${date}.json`);
