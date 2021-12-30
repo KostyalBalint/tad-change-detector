@@ -24,7 +24,6 @@ async function run() {
             const currentState = await getSubjectState(subject.code);
             if (currentState) {
                 if (currentState.rawHtml !== subject.rawHtml) {
-                    console.log(`Subject: ${subject.code} changed`);
                     //For the changed ones, send an email, and save the new state
                     await handleChanged(currentState, subject);
                 } else {
