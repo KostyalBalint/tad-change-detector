@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { Link } from "react-router-dom";
-import DataTable, { TableColumn, TableRow } from "react-data-table-component";
+import DataTable, { TableColumn } from "react-data-table-component";
 import { SubjectsResponse } from "@backend/index";
 import { SubjectURL } from "@backend/scrape-urls";
 

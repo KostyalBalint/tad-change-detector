@@ -1,6 +1,5 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDiffViewer from "react-diff-viewer";
-import { useParams } from "react-router";
 import { SubjectResponse } from "@backend/index";
 import { Subject } from "@backend/scrape-subject";
 
@@ -31,9 +30,6 @@ export function DiffViewer({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log(
-      `http://api.localhost/subjects/${code}?oldCode=${oldFile}&newCode=${newFile}`
-    );
     fetch(
       `http://api.localhost/subjects/${code}?oldCode=${oldFile}&newCode=${newFile}`
     )
@@ -42,7 +38,6 @@ export function DiffViewer({
         let subject = json as SubjectResponse;
         if (subject.error) {
           setIsLoaded(false);
-          //TODO: handle error
           console.error(subject.error);
           setError(subject.error);
         } else if (subject.data.old && subject.data.new) {

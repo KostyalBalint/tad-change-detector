@@ -28,7 +28,7 @@ export function Diff() {
         }
         console.log(data);
       });
-  }, []);
+  }, [code]);
 
   if (!subjectSaves || !code) {
     return <div>Loading...</div>;

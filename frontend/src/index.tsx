@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { DiffViewer } from "./components/DiffViewer";
 import { Diff } from "./routes/Diff";
 import "bootstrap/dist/css/bootstrap.css";
 
