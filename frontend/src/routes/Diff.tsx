@@ -21,12 +21,12 @@ export function Diff() {
           setError(subjects.error);
         } else {
           if (subjects.data.states) {
+            subjects.data.states.reverse();
             setSubjectSaves(subjects.data.states);
-            setNewSubject(subjects.data.states[0]);
             setOldSubject(subjects.data.states[0]);
+            setNewSubject(subjects.data.states[1] ?? subjects.data.states[0]);
           }
         }
-        console.log(data);
       });
   }, [code]);
 

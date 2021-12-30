@@ -57,11 +57,18 @@ export function DiffViewer({
 
   if (isLoaded) {
     return (
-      <ReactDiffViewer
-        oldValue={subject.textContent}
-        newValue={newSubject.textContent}
-        splitView={true}
-      />
+      <div>
+        <div className={"text-center mb-3"}>
+          <a href={subject.url} target={"_blank"}>
+            {subject.name} - {subject.code}
+          </a>
+        </div>
+        <ReactDiffViewer
+          oldValue={subject.textContent}
+          newValue={newSubject.textContent}
+          splitView={true}
+        />
+      </div>
     );
   } else {
     return <div>Loading...</div>;
