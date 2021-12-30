@@ -75,7 +75,7 @@ const App = () => {
             {
               when: (row) => row.stateCount > 1,
               style: {
-                backgroundColor: "rgba(63, 195, 128, 0.9)",
+                backgroundColor: "rgba(247, 89, 57, 0.9)",
               },
             },
           ]}

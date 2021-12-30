@@ -18,7 +18,10 @@ async function run() {
 
     //Scrape all the subjects
     const digests = await getURLs(COURSES_URL);
-    const subjects = await scrapeSubjects(COURSES_URL, digests.map((c) => c.code).slice(0, 10));
+    const subjects = await scrapeSubjects(
+        COURSES_URL,
+        digests.map((c) => c.code),
+    );
 
     //Check if any of them changed
     await Promise.all(
