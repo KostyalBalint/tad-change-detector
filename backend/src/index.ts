@@ -90,16 +90,12 @@ app.get('/subjects/:id', async (req, res) => {
             } as SubjectResponse);
         } else {
             res.json({
-                data: {
-                    error: 'Old or new subject not found',
-                },
+                error: 'Old or new subject not found',
             } as SubjectResponse);
         }
     } else {
         res.json({
-            data: {
-                error: 'Missing oldCode or newCode parameter',
-            },
+            error: 'Missing oldCode or newCode parameter',
         } as SubjectResponse);
     }
 });
@@ -108,8 +104,8 @@ export interface SubjectResponse {
     data: {
         old?: Subject;
         new?: Subject;
-        error?: string;
     };
+    error?: string;
 }
 
 app.get('/subjects/saves/:id', async (req, res) => {
@@ -123,9 +119,7 @@ app.get('/subjects/saves/:id', async (req, res) => {
         } as SubjectSavesResponse);
     } else {
         res.json({
-            data: {
-                error: `No saved states found for subject ${code}`,
-            },
+            error: `No saved states found for subject ${code}`,
         } as SubjectSavesResponse);
     }
 });
@@ -133,6 +127,6 @@ app.get('/subjects/saves/:id', async (req, res) => {
 export interface SubjectSavesResponse {
     data: {
         states?: string[];
-        error?: string;
     };
+    error?: string;
 }
