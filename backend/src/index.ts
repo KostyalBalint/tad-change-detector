@@ -49,7 +49,7 @@ async function run() {
 
 async function main(): Promise<void> {
     await run();
-    //setInterval(run, 1000 * 60 * 60);
+    setInterval(run, 1000 * 60 * 60);
 }
 
 const port = process.env.PORT || 8080;

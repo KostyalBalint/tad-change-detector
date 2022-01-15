@@ -12,7 +12,7 @@ export function Diff() {
   const { code } = useParams();
   useEffect(() => {
     //Load available diffs
-    fetch(`http://api.localhost/subjects/saves/${code}`)
+    fetch(`http://api.${process.env.REACT_APP_BASE_URL}/subjects/saves/${code}`)
       .then((res) => res.json())
       .then((data) => {
         let subjects = data as SubjectSavesResponse;

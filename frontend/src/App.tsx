@@ -14,13 +14,13 @@ const App = () => {
   //Fetch subjects from api when component mounts
   useEffect(() => {
     //TODO: Use docker network to connect to api
-    fetch("http://api.localhost/subjects")
+    fetch(`http://api.${process.env.REACT_APP_BASE_URL}/subjects`)
       .then((res) => res.json())
       .then((data: SubjectsResponse) => {
         setDataLoaded(true);
         setSubjectURLs(data.data);
       });
-  });
+  }, []);
 
   const columns: TableColumn<DataRow>[] = [
     {

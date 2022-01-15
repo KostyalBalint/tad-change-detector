@@ -33,7 +33,7 @@ export function DiffViewer({
 
   useEffect(() => {
     fetch(
-      `http://api.localhost/subjects/${code}?oldCode=${oldFile}&newCode=${newFile}`
+      `http://api.${process.env.REACT_APP_BASE_URL}/subjects/${code}?oldCode=${oldFile}&newCode=${newFile}`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -64,8 +64,8 @@ export function DiffViewer({
           </a>
         </div>
         <ReactDiffViewer
-          oldValue={subject.textContent}
-          newValue={newSubject.textContent}
+          oldValue={subject.rawHtml}
+          newValue={newSubject.rawHtml}
           splitView={true}
         />
       </div>
