@@ -55,7 +55,7 @@ async function main(): Promise<void> {
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}`);
+    console.log(`Server is running on port http://${process.env.BASE_URL || 'localohst'}:${port}`);
 });
 
 app.get('/', (req, res) => {
