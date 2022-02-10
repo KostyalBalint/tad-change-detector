@@ -10,7 +10,7 @@ const BASE_DIR = path.resolve('./data/');
  */
 export function getSubjectState(code: string): Subject | undefined {
     const fileNames = getSubjectFileNames(code);
-    if (fileNames) {
+    if (fileNames.length > 0) {
         let fileName = fileNames.sort().reverse()[0];
         return getSubjectStateFromFile(code, fileName);
     }
