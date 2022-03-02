@@ -64,8 +64,8 @@ export function DiffViewer({
           </a>
         </div>
         <ReactDiffViewer
-          oldValue={subject.rawHtml}
-          newValue={newSubject.rawHtml}
+          oldValue={subject.textContent}
+          newValue={newSubject.textContent}
           splitView={true}
         />
       </div>
