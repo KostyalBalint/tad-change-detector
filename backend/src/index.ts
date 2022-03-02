@@ -78,14 +78,8 @@ app.get('/subjects/:id', async (req, res) => {
     let code = req.params.id;
     console.log(`oldCode: ${oldCode} newCode: ${newCode} code: ${code}`);
     if (oldCode && newCode && typeof oldCode === 'string' && typeof newCode === 'string') {
-        let oldSubject = await getSubjectStateFromFile(
-            code,
-            oldCode.replace(/\//g, '').replace(/\.\./g, '').toUpperCase(),
-        );
-        let newSubject = await getSubjectStateFromFile(
-            code,
-            newCode.replace(/\//g, '').replace(/\.\./g, '').toUpperCase(),
-        );
+        let oldSubject = await getSubjectStateFromFile(code, oldCode.replace(/\//g, '').replace(/\.\./g, ''));
+        let newSubject = await getSubjectStateFromFile(code, newCode.replace(/\//g, '').replace(/\.\./g, ''));
         if (oldSubject && newSubject) {
             res.json({
                 data: {

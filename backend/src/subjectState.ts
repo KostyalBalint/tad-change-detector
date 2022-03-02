@@ -36,7 +36,7 @@ export function getSubjectFileNames(code: string): string[] {
  * @param fileName Name of the file
  */
 export function getSubjectStateFromFile(code: string, fileName: string): Subject | undefined {
-    const filePath = path.join(BASE_DIR, code, fileName);
+    const filePath = path.join(BASE_DIR, code.toUpperCase(), fileName.toLowerCase());
     if (fs.existsSync(filePath)) {
         try {
             const data = fs.readFileSync(filePath, 'utf8');
