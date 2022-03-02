@@ -28,8 +28,7 @@ services:
       - ./frontend/src:/usr/app/src
       - ./backend:/usr/backend  #Add volume for backend types
     hostname: frontend
-    environment:
-      env_file: .env
+    env_file: .env
     #network_mode: bridge
   backend:
     build:
@@ -44,6 +43,5 @@ services:
       - ./backend/data:/usr/app/data
     #  - ./prisma:/usr/app/prisma
     hostname: backend
-    environment:
-      env_file: .env
+    env_file: .env
     #network_mode: bridge
