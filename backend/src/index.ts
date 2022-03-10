@@ -1,9 +1,16 @@
 import { getURLs, refreshURLsCache, SubjectURL } from './scrape-urls';
 import { getSubjectWithTextContent, scrapeSubjects, Subject, SubjectWithTextContent } from './scrape-subject';
 import express from 'express';
+import cors from 'cors';
 import { getSubjectFileNames, getSubjectState, getSubjectStateFromFile, saveSubjectState } from './subjectState';
 import { handleChanged } from './handleChanged';
 const app = express();
+
+app.use(
+    cors({
+        origin: 'tad.vik.hk',
+    }),
+);
 
 const SITE_URL = 'https://portal.vik.bme.hu';
 const COURSES_URL = `${SITE_URL}/kepzes/targyak/`;
